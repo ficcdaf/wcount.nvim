@@ -9,13 +9,15 @@ local config = {}
 ---@param opts WcountConfig?
 M.setup = function(opts)
 	local conf = opts or {}
-	print("We are setting up with " .. vim.inspect(opts))
+	print("We are setting up with " .. vim.inspect(conf))
 end
 
 ---Print the word count
 M.print_count = function()
-	local c = require("wcount.count").get_count()
-	vim.notify(c, vim.log.levels.INFO)
+	local count = require("wcount.count")
+	local c = count.get_count_cache()
+	local out = "Normal: " .. tostring(c.normal) .. "\nVisual: " .. tostring(c.visual)
+	vim.notify(out, vim.log.levels.INFO)
 end
 
 return M
