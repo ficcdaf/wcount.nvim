@@ -1,15 +1,23 @@
 ---@class wcount
----@type table<string, function>
 local M = {}
+
+---Default settings.
 ---@class WcountConfig
----@type table<string, any>
-local config = {}
+M.config = {
+	file_types = {
+		tex = true,
+		markdown = true,
+		other = false,
+	},
+	latex = {
+		counter = "pandoc", -- "pandoc" | "texcount"
+	},
+}
 
 ---Setup plugin with user config
 ---@param opts WcountConfig?
 M.setup = function(opts)
-	local conf = opts or {}
-	print("We are setting up with " .. vim.inspect(conf))
+	M.config = vim.tbl_extend("force", M.config, opts or {})
 end
 
 ---Print the word count

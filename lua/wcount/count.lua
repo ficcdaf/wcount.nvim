@@ -80,4 +80,25 @@ M.get_word_count = function(opt)
 	end
 end
 
+local function process_pandoc(result)
+	if result.code == 0 then
+		print(result.stdout)
+	else
+		print(result.stderr)
+	end
+end
+
+M.count_latex = function()
+	local path = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+	local counter = require("wcount").config.latex.counter
+	if counter == "pandoc" then
+		local out = vim.system({ "pandoc", "-f", "latex", "-t", "plain", path }, { text = true }, process_pandoc)
+		print(vim.inspect(out))
+	else
+		if counter == "texcount" then
+			print("stinky")
+		end
+	end
+end
+
 return M
